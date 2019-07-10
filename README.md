@@ -1,7 +1,10 @@
 # Amplitude PHP client
+Straightforward Amplitude client package.
+
+## Installation
+`composer require laurynasgadl/amplitude-php`
 
 ## Example
-Straightforward Amplitude client package.
 
 ### Sending a single event
 ```php
