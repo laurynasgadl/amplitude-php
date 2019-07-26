@@ -20,7 +20,7 @@ $event->event_type = 'test-event';
 $result = $amplitude->send($event);
 ```
 
-### Sending a multiple events
+### Sending multiple events
 ```php
 use Luur\Amplitude\Amplitude;
 use Luur\Amplitude\Message;
