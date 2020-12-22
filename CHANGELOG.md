@@ -1,5 +1,10 @@
 # Changelog
 
+## [2.0.0] - 2020-12-22
+### Updated
+- GuzzleHttp dependency to ^7.0.1
+- Code to PHP 7.4
+
 ## [1.0.0] - 2019-07-10
 ### Added
 - Initial version

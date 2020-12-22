@@ -4,21 +4,17 @@ namespace Luur\Amplitude;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
+use JsonSerializable;
+use Psr\Http\Message\ResponseInterface;
 use Psr\Log\LoggerAwareTrait;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
-use JsonSerializable;
 
 class Amplitude
 {
     use LoggerAwareTrait;
 
-    /**
-     * Amplitude service URL
-     *
-     * @var string
-     */
-    const API_URL = 'https://api.amplitude.com/httpapi';
+    public const API_URL = 'https://api.amplitude.com/httpapi';
 
     /**
      * Possible HTTP Status Codes
@@ -27,7 +23,7 @@ class Amplitude
      *
      * @var array
      */
-    const HTTP_CODES = [
+    public const HTTP_CODES = [
         400 => 'Request malformed',
         413 => 'Too many events in request',
         429 => 'Too many requests for the device',
@@ -37,22 +33,11 @@ class Amplitude
         503 => 'Server error',
     ];
 
-    /**
-     * @var string
-     */
-    protected $apiKey;
+    protected string $apiKey;
 
-    /**
-     * @var Message
-     */
-    protected $message;
+    protected Message $message;
 
-    /**
-     * Amplitude constructor.
-     * @param string $apiKey
-     * @param LoggerInterface|null $logger
-     */
-    public function __construct($apiKey, LoggerInterface $logger = null)
+    public function __construct(string $apiKey, LoggerInterface $logger = null)
     {
         $this->apiKey = $apiKey;
 
@@ -65,10 +50,10 @@ class Amplitude
 
     /**
      * @param JsonSerializable $message
-     * @return mixed|\Psr\Http\Message\ResponseInterface
+     * @return ResponseInterface
      * @throws GuzzleException
      */
-    public function send(JsonSerializable $message)
+    public function send(JsonSerializable $message): ResponseInterface
     {
         $http = $this->getHttpClient();
 
@@ -77,7 +62,7 @@ class Amplitude
                 'form_params' => [
                     'api_key' => $this->apiKey,
                     'event'   => json_encode($message, JSON_NUMERIC_CHECK),
-                ]
+                ],
             ]);
         } catch (GuzzleException $exception) {
             $this->logger->error('Amplitude POST request failed', [
@@ -91,10 +76,7 @@ class Amplitude
         }
     }
 
-    /**
-     * @return Client
-     */
-    protected function getHttpClient()
+    protected function getHttpClient(): Client
     {
         return new Client([
             'base_uri' => self::API_URL,

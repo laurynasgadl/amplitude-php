@@ -1,5 +1,6 @@
 <?php
 
+use GuzzleHttp\Psr7\Response;
 use Luur\Amplitude\Event;
 use Luur\Amplitude\Message;
 use Luur\Amplitude\Amplitude;
@@ -24,7 +25,7 @@ class AmplitudeTest extends TestCase
     }
 
     /**
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
     public function testHandlesEventSending()
     {
@@ -44,19 +45,20 @@ class AmplitudeTest extends TestCase
     public function testReturnsResponse()
     {
         $clientMock = $this->getMockBuilder(Client::class)
-            ->setMethods(['request'])
+            ->onlyMethods(['request'])
             ->getMock();
 
-        $clientMock->method('request')->willReturn('test');
+        $response = new Response(200, [], 'test');
+        $clientMock->method('request')->willReturn($response);
 
         $ampMock = $this->getMockBuilder(Amplitude::class)
             ->setConstructorArgs(['test-test'])
-            ->setMethods(['getHttpClient'])
+            ->onlyMethods(['getHttpClient'])
             ->getMock();
 
         $ampMock->method('getHttpClient')->willReturn($clientMock);
 
-        $this->assertEquals('test', $ampMock->send($this->buildEvent()));
+        $this->assertEquals($response, $ampMock->send($this->buildEvent()));
     }
 
     /**
@@ -72,7 +74,7 @@ class AmplitudeTest extends TestCase
 
     /**
      * @return Message
-     * @throws \Luur\Amplitude\Exceptions\InvalidDataException
+     * @throws InvalidDataException
      */
     public function buildMessage()
     {
