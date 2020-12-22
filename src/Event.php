@@ -83,23 +83,16 @@ class Event implements JsonSerializable
         'android_id'          => 'string',
     ];
 
-    /**
-     * @var array
-     */
-    protected $keys = [];
+    protected array $keys = [];
 
-    /**
-     * Event constructor.
-     * @param array $data
-     */
     public function __construct(array $data = [])
     {
         $this->set($data);
     }
 
     /**
-     * @param $name
-     * @param null $value
+     * @param string|array $name
+     * @param mixed|null $value
      * @return $this
      */
     public function set($name, $value = null)
@@ -123,7 +116,7 @@ class Event implements JsonSerializable
      * @return mixed
      * @throws ErrorException
      */
-    public function __get($name)
+    public function __get(string $name)
     {
         return $this->get($name);
     }
@@ -132,17 +125,17 @@ class Event implements JsonSerializable
      * @param string $name
      * @param mixed $value
      */
-    public function __set($name, $value)
+    public function __set(string $name, $value)
     {
         $this->set($name, $value);
     }
 
     /**
-     * @param $name
+     * @param string $name
      * @return mixed
      * @throws ErrorException
      */
-    public function get($name)
+    public function get(string $name)
     {
         if (isset($this->keys[$name])) {
             return $this->keys[$name];
@@ -150,19 +143,13 @@ class Event implements JsonSerializable
         throw new ErrorException("Undefined property: {$name}");
     }
 
-    /**
-     * @return mixed
-     */
-    public function jsonSerialize()
-    {
-        return $this->toArray();
-    }
-
-    /**
-     * @return array
-     */
-    public function toArray()
+    public function toArray(): array
     {
         return $this->keys;
+    }
+
+    public function jsonSerialize(): array
+    {
+        return $this->toArray();
     }
 }

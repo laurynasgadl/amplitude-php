@@ -7,20 +7,16 @@ use JsonSerializable;
 
 class Message implements JsonSerializable
 {
-    /**
-     * @var array
-     */
-    protected $buffer;
+    protected array $buffer;
 
     /**
      * Message constructor.
-     *
      * @param array $events
      * @throws InvalidDataException
      */
     public function __construct(array $events = [])
     {
-        $this->buffer = $this->validateEvents($events);
+        $this->buffer = $this->validatedEvents($events);
     }
 
     /**
@@ -28,20 +24,18 @@ class Message implements JsonSerializable
      * @return array
      * @throws InvalidDataException
      */
-    private function validateEvents(array $events)
+    private function validatedEvents(array $events): array
     {
         foreach ($events as $event) {
             if (!$event instanceof Event) {
                 throw new InvalidDataException('All array objects need to be an instance of `Event`');
             }
         }
+
         return $events;
     }
 
-    /**
-     * @param Event $event
-     */
-    public function addEvent(Event $event)
+    public function addEvent(Event $event): void
     {
         $this->buffer[] = $event;
     }
@@ -50,18 +44,16 @@ class Message implements JsonSerializable
      * @param array $events
      * @throws InvalidDataException
      */
-    public function addEvents(array $events)
+    public function addEvents(array $events): void
     {
-        $this->buffer = array_merge($this->buffer, $this->validateEvents($events));
+        $this->buffer = array_merge($this->buffer, $this->validatedEvents($events));
     }
 
-    /**
-     * @return array
-     */
-    public function clear()
+    public function clear(): array
     {
         $copy         = $this->buffer;
         $this->buffer = [];
+
         return $copy;
     }
 
@@ -73,18 +65,7 @@ class Message implements JsonSerializable
         return $this->buffer;
     }
 
-    /**
-     * @return mixed
-     */
-    public function jsonSerialize()
-    {
-        return $this->toArray();
-    }
-
-    /**
-     * @return array
-     */
-    protected function toArray()
+    protected function toArray(): array
     {
         $array = [];
 
@@ -97,5 +78,10 @@ class Message implements JsonSerializable
         }
 
         return $array;
+    }
+
+    public function jsonSerialize(): array
+    {
+        return $this->toArray();
     }
 }

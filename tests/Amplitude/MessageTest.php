@@ -43,7 +43,7 @@ class MessageTest extends TestCase
             $this->buildEvent(),
         ];
         $mess   = new Message($buffer);
-        $this->assertEquals(count($buffer), count($mess->getBuffer()));
+        $this->assertSameSize($buffer, $mess->getBuffer());
         return $mess;
     }
 
@@ -103,7 +103,7 @@ class MessageTest extends TestCase
     {
         $count = count($message->getBuffer());
         $message->addEvent($this->buildEvent());
-        $this->assertEquals($count + 1, count($message->getBuffer()));
+        $this->assertCount($count + 1, $message->getBuffer());
     }
 
     /**
@@ -119,7 +119,7 @@ class MessageTest extends TestCase
             $this->buildEvent(),
             $this->buildEvent(),
         ]);
-        $this->assertEquals($count + 3, count($message->getBuffer()));
+        $this->assertCount($count + 3, $message->getBuffer());
     }
 
     /**
@@ -128,6 +128,6 @@ class MessageTest extends TestCase
      */
     public function testGetsEmptyBuffer(Message $message)
     {
-        $this->assertEquals(0, count($message->getBuffer()));
+        $this->assertCount(0, $message->getBuffer());
     }
 }
