@@ -30,7 +30,7 @@
   },
   "autoload-dev": {
     "psr-4": {
-      "Luur\\Amplitude\\Tests\\": "tests/"
+      "Luur\\Amplitude\\Tests\\": "tests/Amplitude"
     }
   },
   "extra": {

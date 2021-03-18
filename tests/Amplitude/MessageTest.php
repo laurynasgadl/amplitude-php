@@ -1,5 +1,7 @@
 <?php
 
+namespace Luur\Amplitude\Tests;
+
 use Luur\Amplitude\Event;
 use Luur\Amplitude\Message;
 use Luur\Amplitude\Exceptions\InvalidDataException;
