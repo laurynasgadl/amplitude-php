@@ -1,5 +1,8 @@
 <?php
 
+namespace Luur\Amplitude\Tests;
+
+use ErrorException;
 use Luur\Amplitude\Event;
 use PHPUnit\Framework\TestCase;
 
@@ -33,10 +36,10 @@ class EventTest extends TestCase
             'price'            => '123456789.00',
         ]);
 
-        $this->assertTrue(is_int($event->time));
-        $this->assertTrue(is_float($event->price));
-        $this->assertTrue(is_string($event->user_id));
-        $this->assertTrue(is_array($event->event_properties));
+        $this->assertIsInt($event->time);
+        $this->assertIsFloat($event->price);
+        $this->assertIsString($event->user_id);
+        $this->assertIsArray($event->event_properties);
     }
 
     /**
@@ -46,16 +49,16 @@ class EventTest extends TestCase
     public function testEventSetsCorrectType(Event $event)
     {
         $event->user_id = 123456;
-        $this->assertTrue(is_string($event->user_id));
+        $this->assertIsString($event->user_id);
 
         $event->time = '123456789';
-        $this->assertTrue(is_int($event->time));
+        $this->assertIsInt($event->time);
 
         $event->event_properties = 'test';
-        $this->assertTrue(is_array($event->event_properties));
+        $this->assertIsArray($event->event_properties);
 
         $event->price = '123456789.00';
-        $this->assertTrue(is_float($event->price));
+        $this->assertIsFloat($event->price);
     }
 
     /**

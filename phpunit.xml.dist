@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<phpunit bootstrap="./tests/bootstrap.php" colors="true">
-    <filter>
-        <whitelist>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" bootstrap="./tests/bootstrap.php" colors="true" xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd">
+    <coverage>
+        <include>
             <directory suffix=".php">src</directory>
-        </whitelist>
-    </filter>
+        </include>
+        <report>
+            <clover outputFile="tests/build/logs/clover.xml"/>
+            <html outputDirectory="tests/build/coverage"/>
+            <text outputFile="tests/build/coverage.txt"/>
+        </report>
+    </coverage>
     <logging>
-        <log type="tap" target="tests/build/report.tap"/>
-        <log type="junit" target="tests/build/report.junit.xml"/>
-        <log type="coverage-html" target="tests/build/coverage"/>
-        <log type="coverage-text" target="tests/build/coverage.txt"/>
-        <log type="coverage-clover" target="tests/build/logs/clover.xml"/>
+        <junit outputFile="tests/build/report.junit.xml"/>
     </logging>
     <testsuites>
         <testsuite name="amplitude">

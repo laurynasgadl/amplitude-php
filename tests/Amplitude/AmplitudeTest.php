@@ -1,5 +1,7 @@
 <?php
 
+namespace Luur\Amplitude\Tests;
+
 use GuzzleHttp\Psr7\Response;
 use Luur\Amplitude\Event;
 use Luur\Amplitude\Message;
