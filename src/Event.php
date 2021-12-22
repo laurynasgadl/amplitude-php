@@ -49,38 +49,38 @@ class Event implements JsonSerializable
      * @var array
      */
     const AVAILABLE_KEYS = [
-        'user_id'             => 'string',
-        'device_id'           => 'string',
-        'event_type'          => 'string',
-        'time'                => 'int',
-        'event_properties'    => 'array',
-        'user_properties'     => 'array',
-        'groups'              => 'array',
-        'app_version'         => 'string',
-        'platform'            => 'string',
-        'os_name'             => 'string',
-        'os_version'          => 'string',
-        'device_brand'        => 'string',
+        'user_id' => 'string',
+        'device_id' => 'string',
+        'event_type' => 'string',
+        'time' => 'int',
+        'event_properties' => 'array',
+        'user_properties' => 'array',
+        'groups' => 'array',
+        'app_version' => 'string',
+        'platform' => 'string',
+        'os_name' => 'string',
+        'os_version' => 'string',
+        'device_brand' => 'string',
         'device_manufacturer' => 'string',
-        'device_model'        => 'string',
-        'carrier'             => 'string',
-        'country'             => 'string',
-        'region'              => 'string',
-        'city'                => 'string',
-        'dma'                 => 'string',
-        'language'            => 'string',
-        'price'               => 'float',
-        'quantity'            => 'int',
-        'revenue'             => 'float',
-        'productId'           => 'string',
-        'revenueType'         => 'string',
-        'location_lat'        => 'float',
-        'location_lng'        => 'float',
-        'ip'                  => 'string',
-        'idfa'                => 'string',
-        'idfv'                => 'string',
-        'adid'                => 'string',
-        'android_id'          => 'string',
+        'device_model' => 'string',
+        'carrier' => 'string',
+        'country' => 'string',
+        'region' => 'string',
+        'city' => 'string',
+        'dma' => 'string',
+        'language' => 'string',
+        'price' => 'float',
+        'quantity' => 'int',
+        'revenue' => 'float',
+        'productId' => 'string',
+        'revenueType' => 'string',
+        'location_lat' => 'float',
+        'location_lng' => 'float',
+        'ip' => 'string',
+        'idfa' => 'string',
+        'idfv' => 'string',
+        'adid' => 'string',
+        'android_id' => 'string',
     ];
 
     protected array $keys = [];
@@ -93,14 +93,15 @@ class Event implements JsonSerializable
     /**
      * @param string|array $name
      * @param mixed|null $value
-     * @return $this
+     * @return self
      */
-    public function set($name, $value = null)
+    public function set($name, $value = null): self
     {
         if (is_array($name)) {
             foreach ($name as $key => $val) {
                 $this->set($key, $val);
             }
+
             return $this;
         }
 
@@ -108,6 +109,7 @@ class Event implements JsonSerializable
             settype($value, self::AVAILABLE_KEYS[$name]);
             $this->keys[$name] = $value;
         }
+
         return $this;
     }
 
@@ -140,7 +142,7 @@ class Event implements JsonSerializable
         if (isset($this->keys[$name])) {
             return $this->keys[$name];
         }
-        throw new ErrorException("Undefined property: {$name}");
+        throw new ErrorException("Undefined property: $name");
     }
 
     public function toArray(): array
