@@ -41,7 +41,7 @@ class Message implements JsonSerializable
     }
 
     /**
-     * @param array $events
+     * @param Event[] $events
      * @throws InvalidDataException
      */
     public function addEvents(array $events): void
@@ -51,16 +51,13 @@ class Message implements JsonSerializable
 
     public function clear(): array
     {
-        $copy         = $this->buffer;
+        $copy = $this->buffer;
         $this->buffer = [];
 
         return $copy;
     }
 
-    /**
-     * @return array
-     */
-    public function getBuffer()
+    public function getBuffer(): array
     {
         return $this->buffer;
     }

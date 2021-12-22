@@ -17,7 +17,7 @@
   "require": {
     "php": ">=7.4",
     "psr/log": "^1.0",
-    "guzzlehttp/guzzle": "^7.0.1",
+    "guzzlehttp/guzzle": "^7.4",
     "ext-json": "*"
   },
   "require-dev": {
@@ -35,7 +35,7 @@
   },
   "extra": {
     "branch-alias": {
-      "dev-master": "2.0.x-dev"
+      "dev-master": "3.0.x-dev"
     }
   }
 }

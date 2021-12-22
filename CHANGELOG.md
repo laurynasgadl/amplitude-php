@@ -1,7 +1,22 @@
 # Changelog
 
+## [3.0.0] - 2021-12-22
+### Added
+- Ability to change the used HTTP client either via optional construct arg or `setClient` method
+
+### Changed
+- GuzzleHttp dependency to ^7.4
+- Moved `HTTP_CODES` const to dedicated `Luur\Amplitude\ErrorCodes` class
+
+### Removed
+- Logger in `Luur\Amplitude\Amplitude`
+
+### Fixed
+- Added correct namespace in tests
+- Added missing return types
+
 ## [2.0.0] - 2020-12-22
-### Updated
+### Changed
 - GuzzleHttp dependency to ^7.0.1
 - Code to PHP 7.4
 

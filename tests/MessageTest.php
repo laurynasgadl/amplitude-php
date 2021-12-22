@@ -1,5 +1,7 @@
 <?php
 
+namespace Luur\Amplitude\Tests;
+
 use Luur\Amplitude\Event;
 use Luur\Amplitude\Message;
 use Luur\Amplitude\Exceptions\InvalidDataException;
@@ -7,17 +9,18 @@ use PHPUnit\Framework\TestCase;
 
 class MessageTest extends TestCase
 {
-    public function testThrowsInvalidDataException()
+    public function testThrowsInvalidDataException(): void
     {
         $this->expectException(InvalidDataException::class);
         new Message(['1', '2', '3']);
     }
 
-    public function testCreatesMessage()
+    public function testCreatesMessage(): Message
     {
-        $mess = new Message();
-        $this->assertTrue($mess instanceof Message);
-        return $mess;
+        $message = new Message();
+        $this->assertTrue($message instanceof Message);
+
+        return $message;
     }
 
     /**
@@ -25,41 +28,35 @@ class MessageTest extends TestCase
      * @param Message $message
      * @return Message
      */
-    public function testCreatesEmptyBuffer(Message $message)
+    public function testCreatesEmptyBuffer(Message $message): Message
     {
         $this->assertEmpty($message->getBuffer());
+
         return $message;
     }
 
     /**
-     * @return Message
      * @throws InvalidDataException
+     * @return Message
      */
-    public function testCreatesNonEmptyBuffer()
+    public function testCreatesNonEmptyBuffer(): Message
     {
         $buffer = [
-            $this->buildEvent(),
-            $this->buildEvent(),
-            $this->buildEvent(),
+            new Event(),
+            new Event(),
+            new Event(),
         ];
-        $mess   = new Message($buffer);
-        $this->assertSameSize($buffer, $mess->getBuffer());
-        return $mess;
-    }
+        $message = new Message($buffer);
+        $this->assertSameSize($buffer, $message->getBuffer());
 
-    /**
-     * @return Event
-     */
-    public function buildEvent()
-    {
-        return new Event();
+        return $message;
     }
 
     /**
      * @depends testCreatesNonEmptyBuffer
      * @param Message $message
      */
-    public function testClearsBuffer(Message $message)
+    public function testClearsBuffer(Message $message): void
     {
         $result = $message->clear();
         $this->assertNotEmpty($result);
@@ -70,18 +67,18 @@ class MessageTest extends TestCase
      * @depends testCreatesNonEmptyBuffer
      * @param Message $message
      */
-    public function testConvertsMultipleEventsToString(Message $message)
+    public function testConvertsMultipleEventsToString(Message $message): void
     {
         $result = json_encode($message, JSON_NUMERIC_CHECK);
         $this->assertEquals(json_encode($message->getBuffer(), JSON_NUMERIC_CHECK), $result);
     }
 
-    public function testConvertsSingleEventToString()
+    public function testConvertsSingleEventToString(): void
     {
         $message = new Message([
-            $this->buildEvent()
+            new Event(),
         ]);
-        $result  = json_encode($message, JSON_NUMERIC_CHECK);
+        $result = json_encode($message, JSON_NUMERIC_CHECK);
         $this->assertEquals(json_encode($message->getBuffer()[0], JSON_NUMERIC_CHECK), $result);
     }
 
@@ -89,7 +86,7 @@ class MessageTest extends TestCase
      * @depends testCreatesEmptyBuffer
      * @param Message $message
      */
-    public function testConvertsEmptyBufferToString(Message $message)
+    public function testConvertsEmptyBufferToString(Message $message): void
     {
         $result = json_encode($message, JSON_NUMERIC_CHECK);
         $this->assertEquals(json_encode($message->getBuffer(), JSON_NUMERIC_CHECK), $result);
@@ -99,10 +96,10 @@ class MessageTest extends TestCase
      * @depends testCreatesNonEmptyBuffer
      * @param Message $message
      */
-    public function testAddsEvent(Message $message)
+    public function testAddsEvent(Message $message): void
     {
         $count = count($message->getBuffer());
-        $message->addEvent($this->buildEvent());
+        $message->addEvent(new Event());
         $this->assertCount($count + 1, $message->getBuffer());
     }
 
@@ -115,9 +112,9 @@ class MessageTest extends TestCase
     {
         $count = count($message->getBuffer());
         $message->addEvents([
-            $this->buildEvent(),
-            $this->buildEvent(),
-            $this->buildEvent(),
+            new Event(),
+            new Event(),
+            new Event(),
         ]);
         $this->assertCount($count + 3, $message->getBuffer());
     }
