@@ -28,7 +28,10 @@ abstract class AbstractAmplitude
     protected function getDefaultClient(): ClientInterface
     {
         return new Client([
+            'base_uri' => $this->getBaseURI(),
             'timeout' => 60.0,
         ]);
     }
+
+    abstract public function getBaseURI(): string;
 }

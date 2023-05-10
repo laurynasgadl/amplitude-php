@@ -8,21 +8,27 @@ use Psr\Http\Message\ResponseInterface;
 
 class AmplitudeV2 extends AbstractAmplitude
 {
-    public const API_URL = 'https://api2.amplitude.com/2/httpapi';
+    public const API_URI = 'https://api2.amplitude.com/2/httpapi';
 
     public function send(JsonSerializable $message): ResponseInterface
     {
+        $events = $message->toArray();
         $params = [
             'api_key' => $this->apiKey,
-            'events' => [$message->toArray()],
+            'events' => count($events) > 1 ? $events : [$events],
         ];
 
         $headers = [
             'Content-Type' => 'application/json',
         ];
 
-        $request = new Request('POST', self::API_URL, $headers, json_encode($params));
+        $request = new Request('POST', '', $headers, json_encode($params));
 
         return $this->client->sendRequest($request);
+    }
+
+    public function getBaseURI(): string
+    {
+        return self::API_URI;
     }
 }
