@@ -1,9 +1,5 @@
 # Changelog
 
-## [3.1.0] - 2023-05-10
-### Added
-- AmplitudeV2 HTTP client
-
 ## [3.0.0] - 2021-12-22
 ### Added
 - Ability to change the used HTTP client either via optional construct arg or `setClient` method
