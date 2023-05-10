@@ -11,6 +11,11 @@ class AmplitudeV2 extends AbstractAmplitude
         return 'https://api2.amplitude.com/2/httpapi';
     }
 
+    protected function getContentType(): string
+    {
+        return 'application/json';
+    }
+
     protected function formatParams(JsonSerializable $message): string
     {
         return json_encode([
