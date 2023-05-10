@@ -2,25 +2,27 @@
 
 namespace Luur\Amplitude;
 
+use GuzzleHttp\Psr7\Request;
 use JsonSerializable;
+use Psr\Http\Message\ResponseInterface;
 
 class AmplitudeV2 extends AbstractAmplitude
 {
-    protected function getApiUrl(): string
-    {
-        return 'https://api2.amplitude.com/2/httpapi';
-    }
+    public const API_URL = 'https://api2.amplitude.com/2/httpapi';
 
-    protected function getContentType(): string
+    public function send(JsonSerializable $message): ResponseInterface
     {
-        return 'application/json';
-    }
-
-    protected function formatParams(JsonSerializable $message): string
-    {
-        return json_encode([
+        $params = [
             'api_key' => $this->apiKey,
             'events' => [$message->toArray()],
-        ]);
+        ];
+
+        $headers = [
+            'Content-Type' => 'application/json',
+        ];
+
+        $request = new Request('POST', self::API_URL, $headers, json_encode($params));
+
+        return $this->client->sendRequest($request);
     }
 }
