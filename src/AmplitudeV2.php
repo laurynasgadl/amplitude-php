@@ -12,10 +12,9 @@ class AmplitudeV2 extends AbstractAmplitude
 
     public function send(JsonSerializable $message): ResponseInterface
     {
-        $events = $message->toArray();
         $params = [
             'api_key' => $this->apiKey,
-            'events' => count($events) > 1 ? $events : [$events],
+            'events' => $message->toArray(),
         ];
 
         $headers = [
