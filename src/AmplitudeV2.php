@@ -6,22 +6,22 @@ use GuzzleHttp\Psr7\Request;
 use JsonSerializable;
 use Psr\Http\Message\ResponseInterface;
 
-class Amplitude extends AbstractAmplitude
+class AmplitudeV2 extends AbstractAmplitude
 {
-    public const API_URI = 'https://api.amplitude.com/httpapi';
+    public const API_URI = 'https://api2.amplitude.com/2/httpapi';
 
     public function send(JsonSerializable $message): ResponseInterface
     {
         $params = [
             'api_key' => $this->apiKey,
-            'event' => json_encode($message, JSON_NUMERIC_CHECK),
+            'events' => $message->toArray(),
         ];
 
         $headers = [
-            'Content-Type' => 'application/x-www-form-urlencoded',
+            'Content-Type' => 'application/json',
         ];
 
-        $request = new Request('POST', '', $headers, http_build_query($params));
+        $request = new Request('POST', '', $headers, json_encode($params));
 
         return $this->client->sendRequest($request);
     }

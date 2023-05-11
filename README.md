@@ -45,3 +45,17 @@ $message = new Message([
 
 $result = $amplitude->send($message);
 ```
+
+### V2 API
+```php
+use Luur\Amplitude\AmplitudeV2;
+use Luur\Amplitude\Event;
+
+$amplitude = new AmplitudeV2('api-key');
+
+$event = new Event();
+$event->user_id = '123456';
+$event->event_type = 'test-event';
+
+$result = $amplitude->send($event);
+```
